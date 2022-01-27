@@ -6,12 +6,12 @@ import static java.lang.StrictMath.pow;
 
 class Segment {
 
-    private Point start;
-    private Point end;
+    private final Point start;
+    private final Point end;
 
-    public Segment(Point start, Point end) throws IllegalArgumentException {
-        if (start == null || end == null || start.equals(end)) {
-            throw new IllegalArgumentException();
+    public Segment(Point start, Point end) throws RuntimeException {
+        if (start.equals(end)) {
+            throw new RuntimeException();
         } else {
             this.start = start;
             this.end = end;
@@ -19,8 +19,7 @@ class Segment {
     }
 
     double length() {
-        double length = Math.sqrt((Math.pow((end.getX() - start.getX()), 2)) + Math.pow((end.getY() - start.getY()), 2));
-        return length;
+        return Math.sqrt((Math.pow((end.getX() - start.getX()), 2)) + Math.pow((end.getY() - start.getY()), 2));
     }
 
 
@@ -31,23 +30,17 @@ class Segment {
 
     Point intersection(Segment another) {
 
-        another = new Segment(new Point(start.getX(), start.getY()), new Point(end.getX(), end.getY()));
-        Segment segment = new Segment(new Point(this.start.getX(), this.start.getY()), new Point(this.end.getX(), this.end.getY()));
-
-        double A1 = another.end.getY() - another.start.getY();
-        double B1 = another.start.getX() - another.end.getX();
-        double C1 = A1 * another.start.getX() + B1 * another.start.getY();
-
-        double A2 = this.end.getY() - this.start.getY();
-        double B2 = this.start.getX() - this.end.getX();
-        double C2 = A2 * this.start.getX() + B2 * this.start.getY();
-
-        double det = A1 * B2 - A2 * B1;
-        if (det == 0) {
+        double denom = (another.end.getY() - another.start.getY()) * (this.end.getX() - this.start.getX()) - (another.end.getX() - another.start.getX()) * (this.end.getY() - this.start.getY());
+        if (denom == 0.0) { // Lines are parallel.
             return null;
         }
-        double x = (B2 * C1 - B1 * C2) / det;
-        double y = (A1 * C2 - A2 * C1) / det;
-        return new Point(x, y);
+        double ua = ((another.end.getX() - another.start.getX()) * (this.start.getY() - another.start.getY()) - (another.end.getY() - another.start.getY()) * (this.start.getX() - another.start.getX())) / denom;
+        double ub = ((this.end.getX() - this.start.getX()) * (another.start.getX() - another.start.getY()) - (this.end.getY() - this.start.getY()) * (this.start.getX() - another.start.getX())) / denom;
+        if (ua >= 0.0 && ua <= 1.0 && ub >= 0.0 && ub <= 1.0) {
+
+            return new Point((this.start.getX() + ua * (this.end.getX() - this.start.getX())), (this.start.getY() + ua * (this.end.getY() - this.start.getY())));
+        }
+
+        return null;
     }
 }
