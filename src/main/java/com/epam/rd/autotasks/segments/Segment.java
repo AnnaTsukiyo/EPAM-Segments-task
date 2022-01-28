@@ -40,20 +40,16 @@ class Segment {
         double y4 = another.end.getY();
         double inY;
         double inX;
-        double denom;
-        denom = (((y4 - y3) * (x2 - x1)) - ((x4 - x3) * (y2 - y1)));
+        double denom = (((y4 - y3) * (x2 - x1)) - ((x4 - x3) * (y2 - y1)));
         if (denom == 0) {
             return null;
-        } else {
-            double u1 = (((x4 - x3) * (y1 - y3)) - ((y4 - y3) * (x1 - x3))) / denom;
-            double u2 = (((x2 - x1) * (y1 - y3)) - ((y2 - y1) * (x1 - x3))) / denom;
-            if (u1 > 1 || u1 < 0 || u2 > 1 || u2 < 0) {
-                return null;
-            } else {
-                inX = x1 + (u1 * (x2 - x1));
-                inY = y1 + (u1 * (y2 - y1));
-            }
         }
+
+        double u1 = (((x4 - x3) * (y1 - y3)) - ((y4 - y3) * (x1 - x3))) / denom;
+        double u2 = (((x2 - x1) * (y1 - y3)) - ((y2 - y1) * (x1 - x3))) / denom;
+        if (u1 > 1 || u1 < 0 || u2 > 1 || u2 < 0) {
+            return null;
+            }
         return new Point(inX, inY);
     }
 }
