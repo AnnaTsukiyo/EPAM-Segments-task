@@ -29,18 +29,15 @@ class Segment {
     }
 
     Point intersection(Segment another) {
-
-        double denom = (another.end.getY() - another.start.getY()) * (this.end.getX() - this.start.getX()) - (another.end.getX() - another.start.getX()) * (this.end.getY() - this.start.getY());
-        if (denom == 0.0) { // Lines are parallel.
+        double denom = (another.end.getY() - another.start.getY()) * (end.getX() - start.getX()) - (another.end.getX() - another.start.getX()) * (end.getY() - start.getY());
+        if (denom == 0) { // Lines are parallel.
             return null;
         }
-        double ua = ((another.end.getX() - another.start.getX()) * (this.start.getY() - another.start.getY()) - (another.end.getY() - another.start.getY()) * (this.start.getX() - another.start.getX())) / denom;
-        double ub = ((this.end.getX() - this.start.getX()) * (another.start.getX() - another.start.getY()) - (this.end.getY() - this.start.getY()) * (this.start.getX() - another.start.getX())) / denom;
-        if (ua >= 0.0 && ua <= 1.0 && ub >= 0.0 && ub <= 1.0) {
-
-            return new Point((this.start.getX() + ua * (this.end.getX() - this.start.getX())), (this.start.getY() + ua * (this.end.getY() - this.start.getY())));
+        if (((end.getX() - start.getX()) / (another.end.getX() - another.start.getX())) == (((end.getY()) - start.getY()) / (another.end.getY() - another.start.getY()))) {
+            return null;
         }
-
-        return null;
+        double ua = ((another.end.getX() - another.start.getX()) * (start.getY() - another.start.getY()) - (another.end.getY() - another.start.getY()) * (start.getX() - another.start.getX())) / denom;
+        double ub = ((end.getX() - start.getX()) * (another.start.getX() - another.start.getY()) - (end.getY() - start.getY()) * (start.getX() - another.start.getX())) / denom;
+        return new Point((start.getX() + ua * (end.getX() - start.getX())), (start.getY() + ub * (end.getY() - start.getY())));
     }
 }
