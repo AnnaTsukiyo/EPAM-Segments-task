@@ -9,7 +9,7 @@ class Segment {
     Point end;
 
     public Segment(Point start, Point end) throws RuntimeException {
-        if (this.start.equals(end) || this.start == end || this.start == null || this.end == null) {
+        if (start.equals(end)) {
             throw new RuntimeException();
         } else {
             this.start = start;
