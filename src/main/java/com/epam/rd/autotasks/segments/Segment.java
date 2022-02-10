@@ -5,7 +5,6 @@ import static java.lang.Math.sqrt;
 import static java.lang.StrictMath.pow;
 
 class Segment {
-
     Point start;
     Point end;
 
@@ -28,7 +27,7 @@ class Segment {
     }
 
     Point intersection(Segment another) {
-        if ((end.getY() - start.getY() / end.getX() - start.getX()) == another.end.getY() - another.start.getY() / another.end.getX() - another.start.getX() || (this.end.getX() - this.start.getX() == this.end.getY() - this.start.getY())) {
+        if ((end.getY() - start.getY() / end.getX() - start.getX()) == another.end.getY() - another.start.getY() / another.end.getX() - another.start.getX()) {
             return null;
         }
         double A1 = another.end.getY() - another.start.getY();
